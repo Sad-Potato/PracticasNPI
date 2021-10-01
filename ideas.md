@@ -8,6 +8,10 @@ Conjunto de elems. que permitan comunicar a los ordenadores de las aulas qué im
 
 # Alumno busca tutor
 
+## Ideas que se podrían extender
+
+A partir la pregunta de qué profesor tienes, te diga los horarios de tutoría de ese profesor, también podría añadírtelo a un calendario de Google Calendar.
+
 # Localizador de libros en la biblioteca
 
 # Idea comedor
@@ -15,6 +19,10 @@ Conjunto de elems. que permitan comunicar a los ordenadores de las aulas qué im
 Otra idea que tiene pocos elementos de nuevos paradigmas de interacción es una aplicación en la que salga el menú de la cafetería, tú puedas pedir un café, un bocadillo otra cosa, y que la aplicación te avise cuando está; también podrías pagar con la aplicación en el mismo momento.
 
 # Idea guía por la universidad
+
+## Ideas que se podrían extender
+
+Que a partir una conversación con un bot, te diga qué es PRADO, qué es Decsai, qué ramas de la universidad hay, es decir, no sólo elementos de la universidad, sino un contexto más general de todos los procesos, páginas y plaformas de la universidad.
 
 ## Problema
 
