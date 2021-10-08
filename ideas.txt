@@ -1,0 +1,24 @@
+1. App que te indique en qué aula te encuentras, qué asignatura te toca y cómo llegar a tu aula (nft en las puertas de las aulas)
+
+CONTRAS
+  -Ni idea como implementar esta wea
+
+2. Conjunto de elems. que permitan comunicar a los ordenadores de las aulas qué imagen montar, y qué cosas instalar.
+
+CONTRAS
+  -Ni idea de como funcionan los ordenadores del aula, y no tengo ganas de descubrirlo
+
+3. Alumno busca tutor
+
+CONTRAS
+  -Donde está la nueva interacción??
+
+4. Localizador de libros en la biblioteca (agente asistente bibliotecario)
+- Bibliografía básica de una asignatura
+- Petición de libros con aviso por email/app
+- 
+
+CONTRAS
+- A Sergio no le gusta
+
+
