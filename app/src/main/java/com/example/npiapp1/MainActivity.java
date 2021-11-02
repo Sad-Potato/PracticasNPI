@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -35,16 +36,51 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void startTest(View view){
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         TextView textView = findViewById(R.id.textView2);
-        String t = "";
+        String t = "Nothing";
+
+        if (requestCode == 0) {
+
+            if (resultCode == RESULT_OK) {
+                t = data.getStringExtra("SCAN_RESULT");
+            }
+            if(resultCode == RESULT_CANCELED){
+                t = "Couldn't get results";
+            }
+            textView.setText(t);
+        }
+    }
+
+    public void startTest(View view){
+        TextView textView = findViewById(R.id.textView2);
+        String t;
+
+        try {
+
+            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
+
+            startActivityForResult(intent, 0);
+
+        } catch (Exception e) {
+
+            Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+            Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
+            startActivity(marketIntent);
+
+        }
+
+        /*
         for (Sensor s : deviceSensors) {
             t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
         }
         textView.setText(t);
 
-        /*new CountDownTimer(30000, 1000) {
+        new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 textView.setText("seconds remaining: " + millisUntilFinished / 1000);
