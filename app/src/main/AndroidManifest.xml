@@ -10,7 +10,7 @@
         android:theme="@style/Theme.NPIapp1">
 
         <activity android:name=".DisplayMessageActivity"
-            android:exported="true">
+            android:exported="true"
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

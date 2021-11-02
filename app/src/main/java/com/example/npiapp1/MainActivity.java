@@ -1,5 +1,6 @@
 package com.example.npiapp1;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,6 +13,9 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
 
@@ -37,27 +41,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         TextView textView = findViewById(R.id.textView2);
-        String t = "Nothing";
 
-        if (requestCode == 0) {
-
-            if (resultCode == RESULT_OK) {
-                t = data.getStringExtra("SCAN_RESULT");
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        // if the intentResult is null then
+        // toast a message as "cancelled"
+        if (intentResult != null) {
+            if (intentResult.getContents() == null) {
+                textView.setText("Cancelled");
+            } else {
+                // if the intentResult is not null we'll set
+                // the content and format of scan message
+                textView.setText(intentResult.getContents() + " " + intentResult.getFormatName());
             }
-            if(resultCode == RESULT_CANCELED){
-                t = "Couldn't get results";
-            }
-            textView.setText(t);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     public void startTest(View view){
-        TextView textView = findViewById(R.id.textView2);
+
         String t;
+
+        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        intentIntegrator.setPrompt("Scan a barcode or QR Code");
+        intentIntegrator.setOrientationLocked(true);
+        intentIntegrator.initiateScan();
 
         try {
 
