@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
     }
 
     public void sendMessage(View view){
@@ -38,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    public void sensors(View view){
+        TextView textView = findViewById(R.id.textView);
+        String t="";
+        for (Sensor s : deviceSensors) {
+            t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
+        }
+        textView.setText(t);
     }
 
     @Override
@@ -61,31 +67,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startTest(View view){
-
-        String t;
-
-        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-        intentIntegrator.setPrompt("Scan a barcode or QR Code");
-        //intentIntegrator.setOrientationLocked(false);
-        intentIntegrator.initiateScan();
-
-        /*
-        for (Sensor s : deviceSensors) {
-            t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
-        }
-        textView.setText(t);
-
-        new CountDownTimer(30000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                textView.setText("seconds remaining: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                textView.setText("done!");
-            }
-        }.start();
-        */
-    }
 }
