@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +26,8 @@ import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
 
@@ -30,6 +36,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     InputImage image;
+    private SensorManager sensorManager;
+    private List<Sensor> deviceSensors;
 
     BarcodeScannerOptions options =
             new BarcodeScannerOptions.Builder()
@@ -45,7 +53,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
         } catch (ActivityNotFoundException e) {
             System.out.println("Error");
         }
-
     }
 
     @Override
@@ -66,6 +73,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
             // Escaneamos con los parametros que hemos definido
             BarcodeScanner scanner = BarcodeScanning.getClient(options);
 
+            TextView textView = findViewById(R.id.textView);
+
             // Procesamos el qr
             Task<List<Barcode>> result = scanner.process(image)
                     .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
@@ -82,18 +91,21 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                                 int valueType = barcode.getValueType();
                                 // See API reference for complete list of supported types
-                                switch (valueType) {
+                                switch (valueType){
                                     case Barcode.TYPE_WIFI:
                                         String ssid = barcode.getWifi().getSsid();
                                         String password = barcode.getWifi().getPassword();
                                         int type = barcode.getWifi().getEncryptionType();
-                                        break;
+                                    break;
                                     case Barcode.TYPE_URL:
                                         String title = barcode.getUrl().getTitle();
                                         String url = barcode.getUrl().getUrl();
-                                        TextView textView = findViewById(R.id.textView);
                                         textView.setText(url);
-                                        break;
+                                    break;
+                                    default:
+                                        String text=barcode.getRawValue();
+                                        textView.setText(text);
+                                    break;
                                 }
                             }
                             // [END get_barcodes]
@@ -108,6 +120,11 @@ public class DisplayMessageActivity extends AppCompatActivity {
                         }
                     });
         }
+        else{
+            IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            TextView textView = findViewById(R.id.textView3);
+            textView.setText(intentResult.getContents() + " " + intentResult.getFormatName());
+        }
     }
 
 
@@ -121,10 +138,21 @@ public class DisplayMessageActivity extends AppCompatActivity {
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
-        TextView textView = findViewById(R.id.textView);
+        //TextView textView = findViewById(R.id.textView);
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
+    }
+
+    public void qr_android(View view){
         dispatchTakePictureIntent();
+    }
+
+    public void qr_zxing(View view){
+        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        intentIntegrator.setPrompt("Scan a barcode or QR Code");
+        intentIntegrator.initiateScan();
     }
 
 }

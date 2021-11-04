@@ -1,10 +1,15 @@
 package com.example.npiapp1;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void sensors(View view){
+        TextView textView = findViewById(R.id.textView);
+        String t="";
+        for (Sensor s : deviceSensors) {
+            t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
+        }
+        textView.setText(t);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         TextView textView = findViewById(R.id.textView2);
@@ -65,31 +79,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startTest(View view){
-
-        String t;
-
-        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-        intentIntegrator.setPrompt("Scan a barcode or QR Code");
-        //intentIntegrator.setOrientationLocked(false);
-        intentIntegrator.initiateScan();
-
-        /*
-        for (Sensor s : deviceSensors) {
-            t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
-        }
-        textView.setText(t);
-
-        new CountDownTimer(30000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                textView.setText("seconds remaining: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                textView.setText("done!");
-            }
-        }.start();
-        */
-    }
 }
