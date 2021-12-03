@@ -38,18 +38,13 @@ public class MainActivity extends AppCompatActivity {
         deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
     }
 
-    public void sendMessage(View view){
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+    public void startGuiame(View view){
+        Intent intent = new Intent(this, GuiameMain.class);
+        String t="";
+        Log.d("XD2",t);
         startActivity(intent);
     }
 
-    public void showMap(View view){
-        Intent intent = new Intent(this, DisplayMapActivity.class);
-        startActivity(intent);
-    }
 
     public void sensors(View view){
         TextView textView = findViewById(R.id.textView2);
