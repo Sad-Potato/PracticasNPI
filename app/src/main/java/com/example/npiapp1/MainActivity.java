@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     private SensorManager sensorManager;
     private List<Sensor> deviceSensors;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +51,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sensors(View view){
-        TextView textView = findViewById(R.id.textView);
+        TextView textView = findViewById(R.id.textView2);
         String t="";
         for (Sensor s : deviceSensors) {
             t += s.getName() + ", " + String.valueOf(s.getMinDelay()) + "\n";
         }
+        Log.d("XD",t);
         textView.setText(t);
     }
 
