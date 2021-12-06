@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">GuiameUGR</string>
     <string name="lamamalamama">LaMamaLaMama</string>
     <string name="button">Button</string>
     <string name="edit_message">Enter message</string>
